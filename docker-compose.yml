@@ -1,0 +1,17 @@
+version: '3'
+services:
+  ansible5:
+    container_name: 'ansible5'
+    image: 'ansible:5'
+    build:
+      context: './'
+
+    volumes:
+      - './ansible:/srv:rw'
+
+    hostname: 'ansible.container'
+    networks:
+      - 'vlan'
+  
+networks:
+  vlan:
