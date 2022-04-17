@@ -4,10 +4,10 @@ services:
     container_name: 'ansible5'
     image: 'ansible:5'
     build:
-      context: './'
+      context: '.'
 
     volumes:
-      - './ansible:/srv:rw'
+      - './ansible:/srv/ansible:rw'
 
     hostname: 'ansible.container'
     networks:

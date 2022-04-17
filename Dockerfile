@@ -11,7 +11,7 @@
 ## Base ##
 FROM rockylinux:8.5
 USER root
-WORKDIR /srv
+WORKDIR /tmp
 RUN dnf makecache
 
 ## Variables ##
@@ -23,6 +23,9 @@ ARG ANSIBLE_USER="ansible"
 
 # Ansible 5.x
 ARG ANSIBLE_VERSION="5.6.0"
+
+# Ansible file root path
+ARG ANSIBLE_ROOT_PATH="/srv/ansible"
 
 ## Official requirements ##
 # Python3
@@ -106,12 +109,12 @@ install \
 ansible==${ANSIBLE_VERSION}
 
 ## Ansible additional modules (full path needed)
-ARG ANSIBLE_PATH="/home/${ANSIBLE_USER}/.local/bin"
+ARG ANSIBLE_BIN_PATH="/home/${ANSIBLE_USER}/.local/bin"
 
 # Community General
 # Needed by :
 # - Network manager module, community.general.nmcli (https://docs.ansible.com/ansible/latest/collections/community/general/nmcli_module.html#ansible-collections-community-general-nmcli-module)
-RUN ${ANSIBLE_PATH}/ansible-galaxy \
+RUN ${ANSIBLE_BIN_PATH}/ansible-galaxy \
 collection \
 install \
 community.general
@@ -119,6 +122,9 @@ community.general
 ## Final
 USER root
 RUN dnf clean all
+
+WORKDIR ${ANSIBLE_ROOT_PATH}
+RUN chown -Rc ${ANSIBLE_USER}. ${ANSIBLE_ROOT_PATH}
 
 USER ${ANSIBLE_USER}
 ENTRYPOINT [ "/bin/bash" ]

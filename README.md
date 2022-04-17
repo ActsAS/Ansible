@@ -5,9 +5,9 @@ My Ansible container
 Have a container ready to use ansible. For example, to perform initial installation on Raspberry Pi's.
 
 ## Use
-Create an `ansible` directory, containing your playbooks. It will be mounted as `/srv` by the `docker-compose.yml`.
-* Place your ansible files into `ansible`
-  > You should see :
+Create an `ansible` directory, containing your playbooks. It will be mounted as `/srv/ansible` by the `docker-compose.yml`.
+* Place your ansible files into `/srv/ansible`
+  > On the host, you should see :
   > ```bash
   > ansible
   > docker-compose.yml
