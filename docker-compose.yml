@@ -1,7 +1,7 @@
 version: '3'
 services:
   ansible5:
-    container_name: 'ansible5'
+    container_name: 'ansible'
     image: 'ansible:5'
     build:
       context: '.'

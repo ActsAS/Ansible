@@ -6,7 +6,7 @@
 # sudo docker-compose up --build --no-start
 
 # Use with command :
-# sudo docker-compose run --rm ansible5
+# sudo docker-compose run ansible
 
 ## Base ##
 FROM rockylinux:8.5
