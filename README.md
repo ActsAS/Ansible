@@ -16,11 +16,11 @@ Create an `ansible` directory, containing your playbooks. It will be mounted as 
   > ```
 * Create the image :
   ```bash
-  sudo docker-compose up --build --no-start
+  sudo docker-compose up --build --no-start --remove-orphans
   ```
 * Use it :
   ```bash
-  sudo docker-compose run --rm ansible5
+  sudo docker-compose run ansible
   ```
 > **Nota bene**</br>
 > * You enter the container as an **unprivileged user**. However, you can become `root` by typing `sudo -i`

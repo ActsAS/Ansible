@@ -1,12 +1,13 @@
 version: '3'
 services:
-  ansible5:
+  ansible:
     container_name: 'ansible'
     image: 'ansible:5'
     build:
       context: '.'
 
     volumes:
+      - '/etc/localtime:/etc/localtime:ro'
       - './ansible:/srv/ansible:rw'
 
     hostname: 'ansible.container'

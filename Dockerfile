@@ -3,7 +3,7 @@
 # ===================== #
 
 # Generate with command :
-# sudo docker-compose up --build --no-start
+# sudo docker-compose up --build --no-start --remove-orphans
 
 # Use with command :
 # sudo docker-compose run ansible
@@ -24,8 +24,10 @@ ARG ANSIBLE_USER="ansible"
 # Ansible 5.x
 ARG ANSIBLE_VERSION="5.6.0"
 
-# Ansible file root path
-ARG ANSIBLE_ROOT_PATH="/srv/ansible"
+## Variables but not to be messed with ##
+ARG DEFAULT_HOME_DIR="/home"
+ARG CONTAINER_PURPOSE_PATH="/srv"
+ARG ANSIBLE_BIN_PATH="${DEFAULT_HOME_DIR}/${ANSIBLE_USER}/.local/bin"
 
 ## Official requirements ##
 # Python3
@@ -68,6 +70,7 @@ RUN chmod +x -c /etc/profile.d/ssh-agent.sh
 RUN useradd \
 --comment "Ansible's user" \
 --create-home \
+--base-dir ${DEFAULT_HOME_DIR} \
 --system \
 ${ANSIBLE_USER}
 
@@ -113,22 +116,19 @@ install \
 ansible==${ANSIBLE_VERSION}
 
 ## Ansible additional modules (full path needed)
-ARG ANSIBLE_BIN_PATH="/home/${ANSIBLE_USER}/.local/bin"
-
-# Community General
-# Needed by :
-# - Network manager module, community.general.nmcli (https://docs.ansible.com/ansible/latest/collections/community/general/nmcli_module.html#ansible-collections-community-general-nmcli-module)
 RUN ${ANSIBLE_BIN_PATH}/ansible-galaxy \
 collection \
 install \
-community.general
+community.general \
+community.crypto \
+ansible.posix
 
 ## Final
 USER root
 RUN dnf clean all
 
-WORKDIR ${ANSIBLE_ROOT_PATH}
-RUN chown -Rc ${ANSIBLE_USER}. ${ANSIBLE_ROOT_PATH}
+WORKDIR ${CONTAINER_PURPOSE_PATH}
+RUN chown -Rc ${ANSIBLE_USER}. ${CONTAINER_PURPOSE_PATH}
 
 USER ${ANSIBLE_USER}
 ENTRYPOINT [ "/bin/bash" ]
