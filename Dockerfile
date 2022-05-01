@@ -116,13 +116,20 @@ install \
 --user \
 ansible==${ANSIBLE_VERSION}
 
-## Ansible additional modules (full path needed)
+## Ansible additional modules
 RUN ${ANSIBLE_BIN_PATH}/ansible-galaxy \
 collection \
 install \
 community.general \
 community.crypto \
 ansible.posix
+
+## Python additional modules
+# pexpect
+RUN pip3 \
+install \
+--user \
+pexpect
 
 ## Final
 USER root

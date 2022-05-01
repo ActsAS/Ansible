@@ -26,6 +26,11 @@ Create an `ansible` directory, containing your playbooks. It will be mounted as 
 > * You enter the container as an **unprivileged user**. However, you can become `root` by typing `sudo -i`
 > * Ansible is not available *container-wide*, **but** only to that specific unprivileged user
 
+* Once in the container, launch ssh-agent
+```bash
+eval `ssh-agent`
+```
+
 ## Links
 * [Ansible documentation](https://docs.ansible.com/)
 * [Ansible installation](https://docs.ansible.com/ansible/latest/installation_guide/intro_installation.html)
