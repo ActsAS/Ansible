@@ -61,9 +61,10 @@ RUN sed \
 
 RUN visudo --check --strict
 
-# Loading ssh-agent for user
-RUN echo -e "eval `ssh-agent`\n" > /etc/profile.d/ssh-agent.sh
-RUN chmod +x -c /etc/profile.d/ssh-agent.sh
+# Install procps for basic tools
+RUN dnf install \
+--assumeyes \
+procps
 
 ## Dedicated user "ansible" ##
 # Create user
